@@ -1,61 +1,97 @@
 import 'package:flutter/material.dart';
 
 import 'package:hidden_drawer_menu/hidden_drawer/hidden_drawer_menu.dart';
-
-import '../assets/colors.dart';
-
-import 'home.dart';
-import 'product.dart';
-import 'cart.dart';
+import 'package:onpecas_mobile/assets/colors.dart';
+import 'package:onpecas_mobile/model/menu_item.dart';
 
 class Menu extends StatefulWidget {
-  const Menu({Key key}) : super(key: key);
-
   @override
-  _MenuState createState() => new _MenuState();
+  _MenuState createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> {
-  List<ScreenHiddenDrawer> itens = new List();
-
-  @override
-  void initState() {
-    itens.add(new ScreenHiddenDrawer(
-        new ItemHiddenMenu(
-          name: "Onpecas",
-          baseStyle:
-              TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 28.0),
-          colorLineSelected: Colors.lightGreen,
-        ),
-        Home()));
-
-    itens.add(new ScreenHiddenDrawer(
-        new ItemHiddenMenu(
-          name: "Carrinho",
-          baseStyle:
-              TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 28.0),
-          colorLineSelected: Colors.teal,
-        ),
-        Cart()));
-
-    itens.add(new ScreenHiddenDrawer(
-        new ItemHiddenMenu(
-          name: "Promoções",
-          baseStyle:
-              TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 28.0),
-          colorLineSelected: Colors.orange,
-        ),
-        Product()));
-
-    super.initState();
-  }
+  List<MenuItem> itemsMenu = [
+    MenuItem(name: "Home", color: Colors.white.withOpacity(0.8)),
+    MenuItem(name: "Cart", color: Colors.green.withOpacity(0.8)),
+    MenuItem(name: "Product", color: Colors.orange.withOpacity(0.8))
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return HiddenDrawerMenu(
-        backgroundColorMenu: blueOnpecas,
-        backgroundColorAppBar: blueOnpecas,
-        elevationAppBar: 0.0,
-        screens: itens);
+    return Container(
+      width: double.maxFinite,
+      height: double.maxFinite,
+      color: blueOnpecas,
+      //padding: const EdgeInsets.all(8.0),
+      child: Container(
+          alignment: Alignment(-0.97, 0.0),
+          child: ListView.builder(
+            padding: const EdgeInsets.only(top: 220, bottom: 100),
+            itemBuilder: (context, index) {
+              if (index >= itemsMenu.length) {
+                return null;
+              }
+              return CustomMenuItem(
+                  name: itemsMenu[index].name,
+                  color: itemsMenu[index].color,
+                  index: index,
+                  notifyParent: refresh);
+            },
+          )),
+    );
+  }
+
+  refresh() {
+    setState(() {});
+  }
+}
+
+class CustomMenuItem extends StatelessWidget {
+  final String name;
+  final Color color;
+  final int index;
+  final Function() notifyParent;
+
+  CustomMenuItem(
+      {Key key, this.name, this.color, this.index, this.notifyParent});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        FlatButton(
+          padding: const EdgeInsets.all(0),
+          splashColor: Colors.white12,
+          highlightColor: Colors.transparent,
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 4,
+                height: 40,
+                color: SimpleHiddenDrawerProvider.of(context)
+                            .getPositionSelected() ==
+                        this.index
+                    ? this.color
+                    : Colors.transparent,
+                margin: const EdgeInsets.only(right: 10),
+              ),
+              Text(this.name,
+                  style: TextStyle(
+                      color: SimpleHiddenDrawerProvider.of(context)
+                                  .getPositionSelected() ==
+                              this.index
+                          ? Colors.white.withOpacity(1)
+                          : Colors.white.withOpacity(0.8),
+                      fontSize: 28.0)),
+            ],
+          ),
+          onPressed: () {
+            SimpleHiddenDrawerProvider.of(context)
+                .setSelectedMenuPosition(this.index);
+            notifyParent();
+          },
+        ),
+      ],
+    );
   }
 }

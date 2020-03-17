@@ -13,45 +13,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-//      appBar: AppBar(
-//        title: Text(
-//          "Onpecas",
-//          style: TextStyle(fontFamily: 'Aquantico'),
-//        ),
-//        elevation: 0.0,
-//        centerTitle: true,
-////          leading: Container(
-////            margin: const EdgeInsets.only(left: 30),
-////            padding: const EdgeInsets.all(0),
-////            child: Builder(
-////              builder: (BuildContext context) {
-////                return IconButton(
-////                  icon: Icon(Icons.menu),
-////                  onPressed: () {},
-////                  splashColor: Colors.transparent,
-////                  highlightColor: Colors.transparent,
-////                );
-////              },
-////            ),
-////          ),
-//        actions: <Widget>[
-//          IconButton(
-//            padding: const EdgeInsets.only(right: 30),
-//            icon: Icon(Icons.shopping_cart),
-//            onPressed: () {},
-//            splashColor: Colors.transparent,
-//            highlightColor: Colors.transparent,
-//          )
-//        ],
-//      ),
-      body: new Column(
-        children: <Widget>[
-          SearchBox(),
-          ListHome()
-          //new Expanded(child: ListHome()),
-        ],
-      ),
+    return new Column(
+      children: <Widget>[
+        SearchBox(),
+        ListHome()
+        //new Expanded(child: ListHome()),
+      ],
     );
   }
 }
