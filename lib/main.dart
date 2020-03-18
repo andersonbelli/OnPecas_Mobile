@@ -4,6 +4,7 @@ import 'package:onpecas_mobile/ui/cart.dart';
 import 'package:onpecas_mobile/ui/home.dart';
 
 import 'assets/colors.dart';
+import 'feature/search.dart';
 import 'ui/menu.dart';
 import 'ui/product.dart';
 
@@ -71,7 +72,26 @@ class MyApp extends StatelessWidget {
                 )
               ],
             ),
-            body: screenCurrent,
+            body: Flex(direction: Axis.vertical, children: <Widget>[
+              position == 0 ? SearchBox() : Container(),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  color: blueOnpecas,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.only(left: 30, right: 30, top: 30),
+                    decoration: new BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40),
+                        )),
+                    child: screenCurrent,
+                  ),
+                ),
+              ),
+            ]),
           );
         },
       ),
