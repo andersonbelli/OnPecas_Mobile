@@ -84,15 +84,54 @@ class PartsList extends StatelessWidget {
           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
       itemCount: part.length,
       itemBuilder: (context, index) {
-        return Text(part[index].name.toString());
+        return Item(
+          name: part[index].name.toString(),
+          price: part[index].price.toString(),
+        );
       },
     );
   }
 }
 
 class Item extends StatelessWidget {
+  final String name;
+  final String price;
+
+  const Item({Key key, this.name, this.price}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Card(clipBehavior: Clip.hardEdge, child: Text(""));
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      child: Column(
+        children: <Widget>[
+          Image.network(
+            "https://img2.gratispng.com/20180615/gxb/kisspng-engine-car-v8-engine-5b23a5b95c35c3.9481908615290628413777.jpg",
+            height: 200,
+          ),
+          Text(name),
+          ButtonBarTheme(
+            child: ButtonBar(
+              children: <Widget>[
+                FlatButton(
+                  child: const Text('DETALHES'),
+                  onPressed: () {
+                    /* ... */
+                  },
+                ),
+                FlatButton(
+                  child: const Text('SHARE'),
+                  onPressed: () {
+                    /* ... */
+                  },
+                ),
+              ],
+            ),
+            data: ButtonBarThemeData(mainAxisSize: MainAxisSize.max),
+          )
+        ],
+      ),
+      color: Colors.amber,
+    );
   }
 }
