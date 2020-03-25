@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:hidden_drawer_menu/hidden_drawer/hidden_drawer_menu.dart';
-import 'package:onpecas_mobile/assets/colors.dart';
+import 'package:onpecas_mobile/constrants.dart';
 import 'package:onpecas_mobile/model/menu_item.dart';
 
 class Menu extends StatefulWidget {

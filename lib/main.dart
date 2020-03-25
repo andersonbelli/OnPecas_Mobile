@@ -3,7 +3,7 @@ import 'package:hidden_drawer_menu/hidden_drawer/hidden_drawer_menu.dart';
 import 'package:onpecas_mobile/ui/cart.dart';
 import 'package:onpecas_mobile/ui/home.dart';
 
-import 'assets/colors.dart';
+import 'constrants.dart';
 import 'feature/search.dart';
 import 'ui/menu.dart';
 import 'ui/product.dart';

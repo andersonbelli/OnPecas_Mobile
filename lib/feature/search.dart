@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onpecas_mobile/assets/colors.dart';
+import 'package:onpecas_mobile/constrants.dart';
 
 class SearchBox extends StatelessWidget {
   @override
