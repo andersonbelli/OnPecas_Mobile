@@ -114,7 +114,7 @@ class Item extends StatelessWidget {
             child: ButtonBar(
               children: <Widget>[
                 FlatButton(
-                  child: const Text('DETALHES'),
+                  child: const Text('DETAILS'),
                   onPressed: () {
                     /* ... */
                   },
