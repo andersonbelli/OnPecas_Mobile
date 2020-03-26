@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:onpecas_mobile/api/partsApi.dart';
 import 'package:onpecas_mobile/constrants.dart';
 import 'package:onpecas_mobile/model/parts/parts.dart';
-
-import 'package:dio/dio.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -22,39 +18,19 @@ class _HomeState extends State<Home> {
       child: ListHome(),
     );
   }
-}
 
-customTest() async {
-  Dio dio = new Dio();
-  final response = await dio.get(BASE_URL);
-
-//  print("\n\n\nAQUI 111\n\n" +
-//      jsonDecode('''[{"name":"Escapamento","price":21.0}]''').toString());
-//  print("\n\n\nAQUI 222\n\n" +
-//      json.decode('''[{"name":"Escapamento","price":21.0}]''').toString());
-
-//  Map responseBody = response.data;
-//  print(response.data.toString());
-
-  dio.close();
+  @override
+  void dispose() {
+    super.dispose();
+    print("FECHOU :d");
+  }
 }
 
 class ListHome extends StatelessWidget {
-  PartsApi partsApi = new PartsApi();
+  final PartsApi partsApi = new PartsApi();
 
   @override
   Widget build(BuildContext context) {
-    partsApi.fetchParts(BASE_URL);
-
-//      GridView.builder(
-//      gridDelegate:
-//      SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-//      itemCount: parts.length,
-//      itemBuilder: (context, index) {
-//        return Text(parts[index].name);
-//      },
-//    );
-
     return FutureBuilder<List<Part>>(
       future: partsApi.fetchParts(BASE_URL),
       builder: (context, snapshot) {
@@ -79,16 +55,21 @@ class PartsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
-      itemCount: part.length,
-      itemBuilder: (context, index) {
-        return Item(
-          name: part[index].name.toString(),
-          price: part[index].price.toString(),
-        );
-      },
+    return Container(
+      child: GridView.builder(
+        gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
+        itemCount: part.length,
+        itemBuilder: (context, index) {
+          return Item(
+            name: part[index].name.toString(),
+            price: part[index].price.toStringAsFixed(2).toString(),
+            brand: part[index].brand.toString(),
+            model: part[index].model.toString(),
+            url: part[index].url.toString(),
+          );
+        },
+      ),
     );
   }
 }
@@ -96,20 +77,59 @@ class PartsList extends StatelessWidget {
 class Item extends StatelessWidget {
   final String name;
   final String price;
+  final String brand;
+  final String model;
+  final String url;
 
-  const Item({Key key, this.name, this.price}) : super(key: key);
+  const Item({Key key, this.name, this.price, this.brand, this.model, this.url})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.hardEdge,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Image.network(
-            "https://img2.gratispng.com/20180615/gxb/kisspng-engine-car-v8-engine-5b23a5b95c35c3.9481908615290628413777.jpg",
+            url,
             height: 200,
           ),
-          Text(name),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.only(left: 20),
+            //color: Colors.white70,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                RichText(
+                    text: TextSpan(
+                        style: Theme.of(context)
+                            .textTheme
+                            .title
+                            .copyWith(fontSize: 17),
+                        children: [
+                      TextSpan(
+                        text: name,
+                      ),
+                      TextSpan(
+                          text: " " + model,
+                          style: TextStyle(fontWeight: FontWeight.w400)),
+                    ])),
+                Text(
+                  brand,
+                  style: TextStyle(
+                      color: blueOnpecas, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "R\$ " + price.replaceAll(".", ","),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
           ButtonBarTheme(
             child: ButtonBar(
               children: <Widget>[
@@ -119,19 +139,21 @@ class Item extends StatelessWidget {
                     /* ... */
                   },
                 ),
-                FlatButton(
-                  child: const Text('SHARE'),
-                  onPressed: () {
-                    /* ... */
-                  },
-                ),
+                IconButton(
+                    splashColor: Colors.lightBlue[100],
+                    padding: const EdgeInsets.all(0),
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.green[300],
+                    ),
+                    onPressed: () {}),
               ],
             ),
             data: ButtonBarThemeData(mainAxisSize: MainAxisSize.max),
           )
         ],
       ),
-      color: Colors.amber,
+      color: Colors.white,
     );
   }
 }

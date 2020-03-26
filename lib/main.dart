@@ -17,7 +17,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        //primarySwatch: Colors.blue,
+        canvasColor: Colors.transparent,
+        primarySwatch: MaterialColor(0xff1074ba, colorCodes),
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
       ),
       home: SimpleHiddenDrawer(
         slidePercent: 50.0,
@@ -80,9 +84,9 @@ class MyApp extends StatelessWidget {
                   color: blueOnpecas,
                   child: Container(
                     padding:
-                        const EdgeInsets.only(left: 30, right: 30, top: 30),
+                        const EdgeInsets.only(left: 30, right: 30, top: 25),
                     decoration: new BoxDecoration(
-                        color: Colors.white,
+                        color: Colors.grey[100],
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(40),
                           topRight: Radius.circular(40),
